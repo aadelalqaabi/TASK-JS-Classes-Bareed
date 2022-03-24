@@ -138,10 +138,15 @@ class Customer extends Person {
   }
 
   _isInRange = (vendor) => {
-    if (this.range === vendor.range) return true;
+    vendor.location = this.location;
+    if (this.range >= vendor.range) return true;
     else return false;
   };
-  _haveEnoughMoney = (vendor, numberOfIceCreams) => {};
+  _haveEnoughMoney = (vendor, numberOfIceCreams) => {
+    vendor.location = this.location;
+    if (this.wallet.money >= numberOfIceCreams) return true;
+    else return false;
+  };
 
   requestIceCream = (vendor, numberOfIceCreams) => {};
 }
