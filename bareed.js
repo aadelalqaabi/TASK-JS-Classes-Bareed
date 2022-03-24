@@ -94,8 +94,19 @@ class Person {
  *
  * new vendor = new Vendor(name, x, y);
  **********************************************************/
-class Vendor {
+class Vendor extends Person {
   // implement Vendor!
+  constructor(name, x, y) {
+    super(name, x, y);
+    this.name = name;
+    this.location = new Point(x, y);
+    this.range = 5;
+    this.price = 1;
+  }
+  sellTo = (customer, numberOfIceCreams) => {
+    this.moveTo(location);
+    customer.location = this.location;
+  };
 }
 
 /**********************************************************
