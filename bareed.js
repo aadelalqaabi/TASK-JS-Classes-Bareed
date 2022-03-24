@@ -105,9 +105,9 @@ class Vendor extends Person {
     this.price = 1;
   }
   sellTo = (customer, numberOfIceCreams) => {
-    this.moveTo(location);
-    customer.location = this.location;
-    customer.wallet = this.wallet;
+    this.moveTo(customer.location);
+    this.wallet.credit(numberOfIceCreams * this.price);
+    customer.wallet.debit(numberOfIceCreams * this.price);
   };
 }
 
@@ -137,24 +137,18 @@ class Customer extends Person {
     this.range = 0;
   }
 
-  _isInRange = (vendor) => {
-    vendor.location = this.location;
-    if (this.range >= vendor.range) return true;
-    else return false;
-  };
-  _haveEnoughMoney = (vendor, numberOfIceCreams) => {
-    vendor.location = this.location;
-    if (this.wallet.money >= numberOfIceCreams * this.price) return true;
-    else return false;
-  };
+  _isInRange = (vendor) =>
+    vendor.location.distanceTo(this.location) <= vendor.range;
+
+  _haveEnoughMoney = (vendor, numberOfIceCreams) =>
+    this.wallet.money >= numberOfIceCreams * vendor.price;
 
   requestIceCream = (vendor, numberOfIceCreams) => {
-    vendor.location = this.location;
     if (
-      this.range >= vendor.range &&
-      this.wallet.money >= numberOfIceCreams * this.price
+      this._isInRange(vendor) &&
+      this._haveEnoughMoney(vendor, numberOfIceCreams)
     )
-      this.moveTo(vendor);
+      vendor.sellTo(this.numberOfIceCreams);
   };
 }
 
