@@ -148,7 +148,7 @@ class Customer extends Person {
       this._isInRange(vendor) &&
       this._haveEnoughMoney(vendor, numberOfIceCreams)
     )
-      vendor.sellTo(this.numberOfIceCreams);
+      vendor.sellTo(this, numberOfIceCreams);
   };
 }
 
